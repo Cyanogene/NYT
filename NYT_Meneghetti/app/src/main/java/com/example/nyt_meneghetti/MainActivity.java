@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        aa = findViewById(R.id.textView);
         try {
             getAllCurrencies();
         } catch (MalformedURLException e) {
