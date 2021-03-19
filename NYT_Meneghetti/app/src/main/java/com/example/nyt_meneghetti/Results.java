@@ -3,20 +3,20 @@ package com.example.nyt_meneghetti;
 import java.sql.Time;
 import java.util.ArrayList;
 
-public class Risultati {
+public class Results {
     private String uri;
 
     private String url;
 
-    private int id;
+    private long id;
 
-    private int asset_id;
+    private long asset_id;
 
     private String source;
 
-    private Time published_date;
+    private transient Time published_date;
 
-    private Time updated;
+    private transient Time updated;
 
     private String section;
 
@@ -60,16 +60,16 @@ public class Risultati {
     public String getUrl(){
         return this.url;
     }
-    public void setId(int id){
+    public void setId(long id){
         this.id = id;
     }
-    public int getId(){
+    public long getId(){
         return this.id;
     }
-    public void setAsset_id(int asset_id){
+    public void setAsset_id(long asset_id){
         this.asset_id = asset_id;
     }
-    public int getAsset_id(){
+    public long getAsset_id(){
         return this.asset_id;
     }
     public void setSource(String source){

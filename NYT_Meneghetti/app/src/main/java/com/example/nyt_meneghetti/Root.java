@@ -10,7 +10,7 @@ public class Root {
 
     private int num_results;
 
-    private ArrayList<Risultati> results;
+    private ArrayList<Results> results;
 
     public void setStatus(String status){
         this.status = status;
@@ -30,10 +30,10 @@ public class Root {
     public int getNum_results(){
         return this.num_results;
     }
-    public void setResults(ArrayList<Risultati> results){
+    public void setResults(ArrayList<Results> results){
         this.results = results;
     }
-    public ArrayList<Risultati> getResults(){
+    public ArrayList<Results> getResults(){
         return this.results;
     }
 }
