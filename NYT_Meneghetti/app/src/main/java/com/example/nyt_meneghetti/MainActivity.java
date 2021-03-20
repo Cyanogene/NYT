@@ -5,12 +5,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -29,21 +34,63 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Results> resultsArrayList;
     ArrayAdapter adapter;
     ListView listView;
+    Spinner dropdown;
+    EditText editText;
+    String s;
+    Button b;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listView = findViewById(R.id.listview);
-        try {
-            getAllCurrencies();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        editText = findViewById(R.id.editTextTextPersonName);
+        dropdown = findViewById(R.id.spinner);
+        b = findViewById(R.id.button);
+        String[] items = new String[]{"1", "7", "30"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        dropdown.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent form = new Intent(MainActivity.this, BitcoinPerMoneta.class);
+//                form.putExtra("nomeMoneta", listaMonete.get(position).getNome());
+//                startActivity(form);
+            }
+        });
+
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                parent.setSelection(position);
+                s = (String) parent.getSelectedItem();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+
+        });
+
+        b.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                try {
+                    getAllCurrencies();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
+
+
     public void getAllCurrencies() throws MalformedURLException {
-        URL url = new URL("https://api.nytimes.com/svc/mostpopular/v2/emailed/7.json?api-key=xun6cBbMyOBLuPyJ1pBr9497IIz07P2D");
+        URL url = new URL(String.format("https://api.nytimes.com/svc/mostpopular/v2/emailed/%s.json?api-key=xun6cBbMyOBLuPyJ1pBr9497IIz07P2D", s));
         DownloadInternet downloadInternet = new DownloadInternet();
         downloadInternet.execute(url);
     }
