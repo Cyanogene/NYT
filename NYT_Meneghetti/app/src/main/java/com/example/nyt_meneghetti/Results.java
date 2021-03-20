@@ -16,9 +16,9 @@ public class Results {
 
     private String source;
 
-    private transient Calendar published_date;
+    private String published_date;
 
-    private transient Calendar updated;
+    private String updated;
 
     private String section;
 
@@ -90,19 +90,19 @@ public class Results {
         return this.source;
     }
 
-    public void setPublished_date(Calendar published_date) {
+    public void setPublished_date(String published_date) {
         this.published_date = published_date;
     }
 
-    public Calendar getPublished_date() {
+    public String getPublished_date() {
         return this.published_date;
     }
 
-    public void setUpdated(Calendar updated) {
+    public void setUpdated(String updated) {
         this.updated = updated;
     }
 
-    public Calendar getUpdated() {
+    public String getUpdated() {
         return this.updated;
     }
 

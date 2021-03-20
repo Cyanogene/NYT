@@ -1,9 +1,5 @@
 package com.example.nyt_meneghetti;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,6 +14,10 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 
@@ -58,9 +58,8 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent form = new Intent(MainActivity.this, Articolo.class);
                 form.putExtra("urlArticolo", resultsArrayList.get(position).getUrl());
-                // aggiungere altre info
-                // ATTENZIONE: NON SI PUO' FARE READER DI ARTICOLI SU ANDROID PERCHE' QUESTA API NON HA IL CONTENUTO DELL'INTERNO ARTICOLO NEL JSON, FAI SOLAMENTE INFO VARIE + URL ALL'ARTICOLO
-                // FARE UN SHARE SAREBBE BELLO, SE POSSIBILE QUELLO CHE TI CHIEDE QUALE APP, SENNO' COPIA SULLA CLIPBOARD E DILLO ALL'UTENTE
+                form.putExtra("autoreArticolo", resultsArrayList.get(position).getByline());
+                form.putExtra("paroleChiavi", resultsArrayList.get(position).getAdx_keywords());
                 startActivity(form);
             }
         });
@@ -150,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
 
                     View view = super.getView(position, convertView, parent);
                     TextView tv_years = view.findViewById(R.id.textView);
-                    String s = String.format("%s", resultsArrayList.get(position).getTitle());
+                    String s = String.format("%s\n\n%s", resultsArrayList.get(position).getPublished_date(), resultsArrayList.get(position).getTitle());
                     tv_years.setTextColor(Color.parseColor("#BCB6B6"));
                     tv_years.setText(s);
                     return view;
