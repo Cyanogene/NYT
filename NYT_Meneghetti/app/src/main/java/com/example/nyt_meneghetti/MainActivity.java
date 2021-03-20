@@ -56,9 +56,12 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent form = new Intent(MainActivity.this, BitcoinPerMoneta.class);
-//                form.putExtra("nomeMoneta", listaMonete.get(position).getNome());
-//                startActivity(form);
+                Intent form = new Intent(MainActivity.this, Articolo.class);
+                form.putExtra("urlArticolo", resultsArrayList.get(position).getUrl());
+                // aggiungere altre info
+                // ATTENZIONE: NON SI PUO' FARE READER DI ARTICOLI SU ANDROID PERCHE' QUESTA API NON HA IL CONTENUTO DELL'INTERNO ARTICOLO NEL JSON, FAI SOLAMENTE INFO VARIE + URL ALL'ARTICOLO
+                // FARE UN SHARE SAREBBE BELLO, SE POSSIBILE QUELLO CHE TI CHIEDE QUALE APP, SENNO' COPIA SULLA CLIPBOARD E DILLO ALL'UTENTE
+                startActivity(form);
             }
         });
 
