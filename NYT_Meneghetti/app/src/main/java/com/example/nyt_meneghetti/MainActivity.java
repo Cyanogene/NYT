@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -35,21 +36,23 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter adapter;
     ListView listView;
     Spinner dropdown;
-    EditText editText;
     String s;
     Button b;
+    CheckBox c;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listView = findViewById(R.id.listview);
-        editText = findViewById(R.id.editTextTextPersonName);
         dropdown = findViewById(R.id.spinner);
         b = findViewById(R.id.button);
+        c = findViewById(R.id.checkBox);
         String[] items = new String[]{"1", "7", "30"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
+        listView.setSmoothScrollbarEnabled(true);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -87,10 +90,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
     public void getAllCurrencies() throws MalformedURLException {
-        URL url = new URL(String.format("https://api.nytimes.com/svc/mostpopular/v2/emailed/%s.json?api-key=xun6cBbMyOBLuPyJ1pBr9497IIz07P2D", s));
+        URL url = null;
+        if (c.isChecked()) {
+            url = new URL(String.format("https://api.nytimes.com/svc/mostpopular/v2/shared/%s/facebook.json?api-key=xun6cBbMyOBLuPyJ1pBr9497IIz07P2D", s));
+        } else {
+            url = new URL(String.format("https://api.nytimes.com/svc/mostpopular/v2/viewed/%s.json?api-key=xun6cBbMyOBLuPyJ1pBr9497IIz07P2D", s));
+        }
         DownloadInternet downloadInternet = new DownloadInternet();
         downloadInternet.execute(url);
     }
@@ -98,10 +104,11 @@ public class MainActivity extends AppCompatActivity {
     private class DownloadInternet extends AsyncTask<URL, String, String> {
 
         final ProgressDialog dialog = new ProgressDialog(MainActivity.this);
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog.setMessage("Downloading...");
+            dialog.setMessage("Sto scaricando gli articoli...");
             dialog.show();
         }
 
@@ -140,7 +147,8 @@ public class MainActivity extends AppCompatActivity {
 
                     View view = super.getView(position, convertView, parent);
                     TextView tv_years = view.findViewById(R.id.textView);
-                    String s = String.format("NOME : %s", resultsArrayList.get(position).getTitle());
+                    String s = String.format("%s", resultsArrayList.get(position).getTitle());
+                    tv_years.setTextColor(Color.parseColor("#BCB6B6"));
                     tv_years.setText(s);
                     return view;
                 }
