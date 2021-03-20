@@ -2,7 +2,7 @@ package com.example.nyt_meneghetti;
 
 import java.util.ArrayList;
 
-public class Root {
+public class RootPopularArticles {
 
     private String status;
 

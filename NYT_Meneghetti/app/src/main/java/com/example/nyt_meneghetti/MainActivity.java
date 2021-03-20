@@ -31,44 +31,43 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    Root result;
-    ArrayList<Results> resultsArrayList;
-    ArrayAdapter adapter;
-    ListView listView;
-    Spinner dropdown;
-    String s;
-    Button b;
-    CheckBox c;
+    private RootPopularArticles result;
+    private ArrayList<Results> resultsArrayList;
+    private ArrayAdapter adapter;
+    private ListView listView;
+    private Spinner spinner;
+    private String numeroGiorniSelezionati;
+    private Button scaricaArticoli;
+    private CheckBox checkbox_facebook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        listView = findViewById(R.id.listview);
-        dropdown = findViewById(R.id.spinner);
-        b = findViewById(R.id.button);
-        c = findViewById(R.id.checkBox);
-        String[] items = new String[]{"1", "7", "30"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        dropdown.setAdapter(adapter);
-        listView.setSmoothScrollbarEnabled(true);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent form = new Intent(MainActivity.this, Articolo.class);
-                form.putExtra("urlArticolo", resultsArrayList.get(position).getUrl());
-                form.putExtra("autoreArticolo", resultsArrayList.get(position).getByline());
-                form.putExtra("paroleChiavi", resultsArrayList.get(position).getAdx_keywords());
-                startActivity(form);
-            }
-        });
 
-        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        init();
+        spinnerSetup();
+        listViewSetup();
+        btn_articoliSetup();
+    }
+
+    private void init() {
+        listView = findViewById(R.id.listview_articoli);
+        spinner = findViewById(R.id.spinner_giorniPopolari);
+        scaricaArticoli = findViewById(R.id.btn_scaricaArticoliPopolari);
+        checkbox_facebook = findViewById(R.id.checkBox_facebook);
+    }
+
+    private void spinnerSetup() {
+        String[] items = new String[]{"1", "7", "30"};
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        spinner.setAdapter(spinnerAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 parent.setSelection(position);
-                s = (String) parent.getSelectedItem();
+                numeroGiorniSelezionati = (String) parent.getSelectedItem();
             }
 
             @Override
@@ -77,27 +76,36 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
-        b.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                try {
-                    getAllCurrencies();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
     }
 
-    public void getAllCurrencies() throws MalformedURLException {
-        URL url = null;
-        if (c.isChecked()) {
-            url = new URL(String.format("https://api.nytimes.com/svc/mostpopular/v2/shared/%s/facebook.json?api-key=xun6cBbMyOBLuPyJ1pBr9497IIz07P2D", s));
+    private void listViewSetup() {
+        listView.setSmoothScrollbarEnabled(true); // Rende più fluido lo scorrimento della listView.
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Intent form = new Intent(MainActivity.this, Articolo.class);
+            form.putExtra("urlArticolo", resultsArrayList.get(position).getUrl());
+            form.putExtra("autoreArticolo", resultsArrayList.get(position).getByline());
+            form.putExtra("paroleChiavi", resultsArrayList.get(position).getAdx_keywords());
+            startActivity(form);
+        });
+    }
+
+    private void btn_articoliSetup() {
+        scaricaArticoli.setOnClickListener(view -> {
+            try {
+                getAllPopularArticles();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    // Scarica e mostra sulla listView gli articoli ottenuti.
+    public void getAllPopularArticles() throws MalformedURLException {
+        URL url;
+        if (checkbox_facebook.isChecked()) {
+            url = new URL(String.format("https://api.nytimes.com/svc/mostpopular/v2/shared/%s/facebook.json?api-key=xun6cBbMyOBLuPyJ1pBr9497IIz07P2D", numeroGiorniSelezionati));
         } else {
-            url = new URL(String.format("https://api.nytimes.com/svc/mostpopular/v2/viewed/%s.json?api-key=xun6cBbMyOBLuPyJ1pBr9497IIz07P2D", s));
+            url = new URL(String.format("https://api.nytimes.com/svc/mostpopular/v2/viewed/%s.json?api-key=xun6cBbMyOBLuPyJ1pBr9497IIz07P2D", numeroGiorniSelezionati));
         }
         DownloadInternet downloadInternet = new DownloadInternet();
         downloadInternet.execute(url);
@@ -118,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(URL... urls) {
             HttpURLConnection urlConnection;
             String json = "";
+
             try {
                 urlConnection = (HttpURLConnection) urls[0].openConnection();
                 InputStream in = urlConnection.getInputStream();
@@ -138,8 +147,9 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             dialog.dismiss();
+
             Gson gson = new Gson();
-            result = gson.fromJson(s, Root.class);
+            result = gson.fromJson(s, RootPopularArticles.class);
             resultsArrayList = result.getResults();
 
             adapter = new ArrayAdapter<Results>(getApplicationContext(), R.layout.row_custom, R.id.textView, resultsArrayList) {

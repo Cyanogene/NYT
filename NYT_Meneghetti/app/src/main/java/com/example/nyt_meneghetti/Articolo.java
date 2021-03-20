@@ -30,6 +30,8 @@ public class Articolo extends AppCompatActivity {
     }
 
     private void buttonsInit() {
+
+        // Apre una schermata dove si può condividere il link dell'articolo in un altra app.
         share.setOnClickListener(v -> {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
@@ -39,6 +41,7 @@ public class Articolo extends AppCompatActivity {
             startActivity(shareIntent);
         });
 
+        // Apre il browser predefinito per aprire il link dell'articolo
         apriArticolo.setOnClickListener(v -> {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlArticolo));
             startActivity(browserIntent);
@@ -53,6 +56,7 @@ public class Articolo extends AppCompatActivity {
         txt_paroleChiavi = findViewById(R.id.textView_paroleChiavi);
     }
 
+    // Prendo i dati dell'articolo e li inserisco nella view.
     private void getData() {
         urlArticolo = getIntent().getStringExtra("urlArticolo");
         autoreArticolo = String.format("Autori: %s", getIntent().getStringExtra("autoreArticolo"));

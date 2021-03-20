@@ -31,17 +31,17 @@ public class Menu extends AppCompatActivity {
     private void onButtonsClick() {
         articoliPopolari.setOnClickListener(view -> {
             scelta = "Articoli popolari";
-            cambiaSchermata();
+            cambiaSchermata(MainActivity.class);
         });
         cercaArticoli.setOnClickListener(view -> {
-            Toast.makeText(getApplicationContext(), "Coming soon!", Toast.LENGTH_LONG).show();
-            //scelta = "Cerca articoli";
-            //cambiaSchermata();
+            //Toast.makeText(getApplicationContext(), "Coming soon!", Toast.LENGTH_LONG).show();
+            scelta = "Cerca articoli";
+            cambiaSchermata(CercaArticolo.class);
         });
     }
 
-    public void cambiaSchermata() {
-        Intent intent = new Intent(this, MainActivity.class);
+    public void cambiaSchermata(Class<?> unknown) {
+        Intent intent = new Intent(this, unknown);
         intent.putExtra("scelta", scelta);
         startActivity(intent);
     }

@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".Articolo"></activity>
+        <activity android:name=".CercaArticolo"></activity>
+        <activity android:name=".Articolo" />
         <activity android:name=".Menu">
             android:screenOrientation="portrait">
             <intent-filter>
