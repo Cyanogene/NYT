@@ -3,9 +3,9 @@ package com.example.nyt_meneghetti;
 import java.util.ArrayList;
 
 public class Response {
-    private transient ArrayList<Docs> docs;
+    private ArrayList<Docs> docs;
 
-    private transient Meta meta;
+    private Meta meta;
 
     public void setDocs(ArrayList<Docs> docs){
         this.docs = docs;

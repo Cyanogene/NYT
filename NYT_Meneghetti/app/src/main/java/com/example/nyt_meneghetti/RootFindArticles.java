@@ -5,7 +5,7 @@ public class RootFindArticles {
 
     private String copyright;
 
-    private transient Response response;
+    private Response response;
 
     public void setStatus(String status){
         this.status = status;

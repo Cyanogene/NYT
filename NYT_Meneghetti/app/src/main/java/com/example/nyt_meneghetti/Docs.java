@@ -19,9 +19,9 @@ public class Docs {
 
     private transient ArrayList<Multimedia> multimedia;
 
-    private Headline headline;
+    private Headline headline; //titolo
 
-    private transient ArrayList<Keywords> keywords;
+    private ArrayList<Keywords> keywords;
 
     private String pub_date;
 
@@ -33,7 +33,7 @@ public class Docs {
 
     private String subsection_name;
 
-    private Byline byline;
+    private Byline byline; //autore
 
     private String type_of_material;
 

@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -101,12 +102,14 @@ public class MainActivity extends AppCompatActivity {
 
     // Scarica e mostra sulla listView gli articoli ottenuti.
     public void getAllPopularArticles() throws MalformedURLException {
-        URL url;
+        String url_ = "https://api.nytimes.com/svc/mostpopular/v2/";
         if (checkbox_facebook.isChecked()) {
-            url = new URL(String.format("https://api.nytimes.com/svc/mostpopular/v2/shared/%s/facebook.json?api-key=xun6cBbMyOBLuPyJ1pBr9497IIz07P2D", numeroGiorniSelezionati));
+            url_ += String.format("shared/%s/facebook.json", numeroGiorniSelezionati);
         } else {
-            url = new URL(String.format("https://api.nytimes.com/svc/mostpopular/v2/viewed/%s.json?api-key=xun6cBbMyOBLuPyJ1pBr9497IIz07P2D", numeroGiorniSelezionati));
+            url_ += String.format("viewed/%s.json", numeroGiorniSelezionati);
         }
+        url_ += "?api-key=xun6cBbMyOBLuPyJ1pBr9497IIz07P2D";
+        URL url = new URL(url_);
         DownloadInternet downloadInternet = new DownloadInternet();
         downloadInternet.execute(url);
     }
@@ -124,20 +127,17 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(URL... urls) {
-            HttpURLConnection urlConnection;
             String json = "";
 
             try {
-                urlConnection = (HttpURLConnection) urls[0].openConnection();
-                InputStream in = urlConnection.getInputStream();
-                InputStreamReader isr = new InputStreamReader(in);
-                int data = isr.read();
-                while (data != -1) {
-                    json += (char) data;
-                    data = isr.read();
+                HttpURLConnection conn = (HttpURLConnection) urls[0].openConnection();
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String line;
+                while ((line = in.readLine()) != null) {
+                    json += line;
                 }
-
-            } catch (IOException e) {
+                in.close();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return json;
