@@ -60,7 +60,7 @@ public class Articolo extends AppCompatActivity {
     private void getData() {
         urlArticolo = getIntent().getStringExtra("urlArticolo");
         autoreArticolo = String.format("Autori: %s", getIntent().getStringExtra("autoreArticolo"));
-        paroleChiavi = String.format("Parole chiavi:\n\n%s", getIntent().getStringExtra("paroleChiavi"));
+        paroleChiavi = String.format("Parole chiave:\n\n%s", getIntent().getStringExtra("paroleChiave"));
         autoreArticolo = autoreArticolo.replace("By", "");
         paroleChiavi = paroleChiavi.replace(";", "\n");
         autori.setText(autoreArticolo);

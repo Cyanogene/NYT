@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,7 +120,7 @@ public class CercaArticolo extends AppCompatActivity {
             Intent form = new Intent(CercaArticolo.this, Articolo.class);
             form.putExtra("urlArticolo", resultsArrayList.get(position).getWeb_url());
             form.putExtra("autoreArticolo", resultsArrayList.get(position).getByline().getOriginal());
-            form.putExtra("paroleChiavi", parsingKeywords(position));
+            form.putExtra("paroleChiave", parsingKeywords(position));
             startActivity(form);
         });
     }

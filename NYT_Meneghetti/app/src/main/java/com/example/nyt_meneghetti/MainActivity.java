@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             Intent form = new Intent(MainActivity.this, Articolo.class);
             form.putExtra("urlArticolo", resultsArrayList.get(position).getUrl());
             form.putExtra("autoreArticolo", resultsArrayList.get(position).getByline());
-            form.putExtra("paroleChiavi", resultsArrayList.get(position).getAdx_keywords());
+            form.putExtra("paroleChiave", resultsArrayList.get(position).getAdx_keywords());
             startActivity(form);
         });
     }
