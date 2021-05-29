@@ -38,20 +38,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.532" />
 
-    <Button
-        android:id="@+id/btn"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="225dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/roundedbutton"
-        android:backgroundTint="#006E33"
-        android:fontFamily="@font/cairo"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_cercaArticolo" />
-
     <TextView
         android:id="@+id/textView4"
         android:layout_width="0dp"

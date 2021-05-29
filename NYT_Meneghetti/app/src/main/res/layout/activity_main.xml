@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Scarica gli articoli più condivisi di Facebook"
+        android:text="Scarica gli articoli più condivisi su Facebook"
         android:textColor="#BCB6B6"
         app:layout_constraintBottom_toTopOf="@+id/btn_scaricaArticoliPopolari"
         app:layout_constraintEnd_toEndOf="parent"
